@@ -1,8 +1,8 @@
 1. 以管理员身份启动bat
 
    ```bat
-   @echo off
-   %1 mshta vbscript:CreateObject("Shell.Application").ShellExecute("cmd.exe","/c %~s0 ::","","runas",1)(window.close)&&exit
+   @echo off&(cd/d "%~dp0")&(cacls "%SystemDrive%\System Volume Information" >nul 2>&1)||(start "" mshta vbscript:CreateObject^("Shell.Application"^).ShellExecute^("%~snx0"," %*","","runas",1^)^(window.close^)&exit /b)
+   chcp 65001
    ```
 
 2. 添加防火墙规则
@@ -10,8 +10,8 @@
    ```bat
    set RuleName=xxx
    set BinaryPath=xxx
-   netsh advfirewall firewall add rule name=%RuleName% dir=in action=allow program="%ServiceBinary%" enable=yes
-   netsh advfirewall firewall add rule name=%RuleName% dir=out action=allow program="%ServiceBinary%" enable=yes
+   netsh advfirewall firewall add rule name=%RuleName% dir=in action=allow program="%BinaryPath%" enable=yes
+   netsh advfirewall firewall add rule name=%RuleName% dir=out action=allow program="%BinaryPath%" enable=yes
    ```
 
 3. 安装服务
